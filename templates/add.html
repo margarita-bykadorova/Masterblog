@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a blog post</title>
+</head>
+<body>
+<h1>Write a New Blog Post</h1>
+
+<form method="POST" action="/add">
+    <label for="author">Author:</label><br>
+    <input type="text" id="author" name="author" required><br>
+
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" required><br>
+
+    <label for="content">Content:</label><br>
+    <textarea id="content" name="content" rows="5" cols="50" required></textarea><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+<p><a href="/">Back to Home</a></p>
+</body>
+</html>
