@@ -1,11 +1,16 @@
-from flask import Flask
+from flask import Flask, render_template
+import json
+
+DATA_FILE = "storage.json"
 
 app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def index():
+    with open(DATA_FILE, "r", encoding="utf-8") as handle:
+        blog_posts = json.load(handle)
+    return render_template('index.html', posts=blog_posts)
 
 
 if __name__ == '__main__':
