@@ -39,7 +39,7 @@ def add():
         content = request.form['content']
         new_id = max([post["id"] for post in posts], default=0) + 1
 
-        new_post = {"id": new_id, "author": author, "title": title, "content": content}
+        new_post = {"id": new_id, "author": author, "title": title, "content": content, "like": 0}
 
         posts.append(new_post)
         save_data(posts)
@@ -95,6 +95,19 @@ def update(post_id):
         return redirect(url_for('index'))
 
     return render_template('update.html', post=post)
+
+
+@app.route('/like/<int:post_id>', methods=['POST'])
+def like(post_id):
+    posts = get_data()
+
+    for post in posts:
+        if post["id"] == post_id:
+            post["like"] = post.get("like", 0) + 1
+            break
+
+    save_data(posts)
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':

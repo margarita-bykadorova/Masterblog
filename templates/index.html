@@ -21,6 +21,10 @@
         <a href="{{ url_for('update', post_id=post['id']) }}" style="display:inline;">
             <button type="button">Update</button>
         </a>
+
+        <form method="POST" action="{{ url_for('like', post_id=post['id']) }}" style="display:inline;">
+            <button type="submit">Like | {{post['like']}}</button>
+        </form>
     </div>
     {% endfor %}
 <p><a href="/add">Write a New Blog Post</a></p>
