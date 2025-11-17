@@ -14,9 +14,12 @@
         <p><em>Written by {{post["author"]}}</em></p>
         <p>{{post["content"]}}</p>
 
-        <form method="POST" action="/delete/{{ post.id }}" style="display:inline;">
+        <form method="POST" action="{{ url_for('delete', post_id=post['id']) }}" style="display:inline;">
             <button type="submit">Delete</button>
         </form>
+
+        <a href="{{ url_for('update', post_id=post['id']) }}" style="display:inline;">
+            <button type="button">Update</button>
         </a>
     </div>
     {% endfor %}
