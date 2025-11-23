@@ -15,6 +15,9 @@ The interface is styled using soft pastel UI elements for a clean and friendly l
 - Like posts (stored persistently)
 - Persistent storage using `storage.json`
 - Clean, responsive UI with modern pastel styling
+- Validation prevents empty or whitespace-only posts
+- Line breaks in content are preserved visually
+- Delete actions ask for confirmation to prevent accidents
 
 ---
 
@@ -81,6 +84,9 @@ Each post has the following structure:
     "like": 0
 }
 ```
+
+Before saving, user input is trimmed to remove unnecessary whitespace.
+Content line breaks are converted to `<br>` tags so posts display exactly as typed.
 
 ---
 
