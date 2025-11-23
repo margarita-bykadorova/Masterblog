@@ -23,10 +23,22 @@ def save_data(data):
         json.dump(data, handle, ensure_ascii=False, indent=4)
 
 
+def format_content(text):
+    """Convert newline characters to HTML <br> tags."""
+    if not isinstance(text, str):
+        return text
+    return text.replace("\n", "<br>")
+
+
 @app.route('/')
 def index():
     """Display a list of all blog posts."""
     posts = get_data()
+
+    # Format content for all posts
+    for post in posts:
+        post["content"] = format_content(post["content"])
+
     return render_template("index.html", posts=posts)
 
 
@@ -36,9 +48,12 @@ def add():
     posts = get_data()
 
     if request.method == 'POST':
-        author = request.form['author']
-        title = request.form['title']
-        content = request.form['content']
+        author = request.form['author'].strip()
+        title = request.form['title'].strip()
+        content = request.form['content'].strip()
+
+        if not author or not title or not content:
+            return "All fields must be filled in properly.", 400
 
         new_id = max((post["id"] for post in posts), default=0) + 1
         new_post = {
@@ -85,9 +100,16 @@ def update(post_id):
         return "Post not found", 404
 
     if request.method == 'POST':
-        post_to_edit["author"] = request.form.get('author', post_to_edit["author"])
-        post_to_edit["title"] = request.form.get('title', post_to_edit["title"])
-        post_to_edit["content"] = request.form.get('content', post_to_edit["content"])
+        author = request.form.get('author', post_to_edit["author"]).strip()
+        title = request.form.get('title', post_to_edit["title"]).strip()
+        content = request.form.get('content', post_to_edit["content"]).strip()
+
+        if not author or not title or not content:
+            return "All fields must be filled in properly.", 400
+
+        post_to_edit["author"] = author
+        post_to_edit["title"] = title
+        post_to_edit["content"] = content
 
         save_data(posts)
         return redirect(url_for("index"))
